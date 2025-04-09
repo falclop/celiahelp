@@ -1,4 +1,4 @@
-# proyecto CeliaHelp
+# Proyecto CeliaHelp
 **CeliaHelp** es un proyecto de un software de incidencias realizado por **Fabián Alcaide López** usando:
 - Infraestructura: :ship: **Docker**
 - DB: :computer: **MySQL**
