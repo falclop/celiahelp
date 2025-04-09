@@ -47,3 +47,14 @@ CREATE TABLE logs (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
     KEY idx_incidencia_usuario (incidencia_id, usuario_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Insertar rol admin si no existe
+INSERT INTO roles (tipo) VALUES ('admin')
+  ON DUPLICATE KEY UPDATE tipo = tipo;
+
+-- Insertar usuario admin por defecto
+INSERT INTO usuarios (nombre, email, password_hash, rol_id)
+SELECT 'Admin', 'admin@celiahelp.com', 
+       '$2a$10$Vq0FhvnbW8zcfmDJEOSYyOZpPSPDR9GqHMCObYz7ak9DtuZKdrO0C', -- "admin123" en BCrypt
+       id FROM roles WHERE tipo = 'admin'
+  ON DUPLICATE KEY UPDATE email = email;

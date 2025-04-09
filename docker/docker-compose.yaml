@@ -1,10 +1,51 @@
+version: '3.8'
+
 services:
   mysql:
-    image: 'mysql:latest'
-    environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+    image: mysql:8
+    container_name: celia-mysql
+    restart: always
     ports:
-      - '3306'
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend-net
+
+  backend:
+    build: ./backend
+    container_name: celia-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    depends_on:
+      - mysql
+    networks:
+      - frontend-net
+      - backend-net     
+
+  frontend:
+    build: ./frontend
+    container_name: celia-front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - frontend-net
+volumes:
+  db-data:
+
+networks:
+  frontend-net:
+    driver: bridge
+  backend-net:
+    driver: bridge
+ 
