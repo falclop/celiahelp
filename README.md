@@ -1,2 +1,3 @@
 # proyectCeli-Help
-Celi@Help, an proyect about a incident maker and response web app
+**Celi@Help** es un proyecto de un software de incidencias realizado por **Fabián Alcaide López** usando:
+- :smile: **Spring Boot**
