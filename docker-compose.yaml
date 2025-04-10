@@ -15,6 +15,7 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./dbScript.sql:/docker-entrypoint-initdb.d/dbScript.sql
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
     networks:
       - backend-net
 
