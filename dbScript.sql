@@ -2,6 +2,11 @@
 CREATE DATABASE IF NOT EXISTS celiaHelp DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE celiaHelp;
 
+-- Script para crear el usuario y asignarle permisos
+CREATE USER IF NOT EXISTS 'celiahelp'@'%' IDENTIFIED BY 'celiahelp';
+GRANT ALL PRIVILEGES ON celiaHelp.* TO 'celiahelp'@'%';
+FLUSH PRIVILEGES;
+
 -- Script para crear las tablas
 -- Tabla de roles
 CREATE TABLE roles (
