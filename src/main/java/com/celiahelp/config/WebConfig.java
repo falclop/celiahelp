@@ -12,23 +12,22 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // Configura UTF-8 como charset por defecto para respuestas JSON
+    // Forzar charset UTF-8 en respuestas JSON
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        for (HttpMessageConverter<?> converter : converters) {
-            if (converter instanceof MappingJackson2HttpMessageConverter jacksonConverter) {
-                jacksonConverter.setDefaultCharset(StandardCharsets.UTF_8);
-            }
-        }
+        converters.stream()
+                .filter(c -> c instanceof MappingJackson2HttpMessageConverter)
+                .map(c -> (MappingJackson2HttpMessageConverter) c)
+                .forEach(c -> c.setDefaultCharset(StandardCharsets.UTF_8));
     }
 
-    // Habilita CORS para todas las rutas y métodos (ideal para desarrollo)
+    // CORS global habilitado para desarrollo
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Aplica a todos los endpoints
-                .allowedOrigins("*") // Permite cualquier origen (puedes restringirlo a dominios específicos)
+                .allowedOriginPatterns("*") // Usar allowedOriginPatterns en vez de allowedOrigins con "*" (para evitar warnings modernos)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+                .allowCredentials(true); // Necesario si usas cookies / sesiones
     }
 }
-

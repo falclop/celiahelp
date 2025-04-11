@@ -2,73 +2,76 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Probar API CeliaHelp</title>
+    <title>CeliaHelp - Incidencias</title>
 </head>
 <body>
-<h1>Incidencias</h1>
-
-<button onclick="cargarIncidencias()">Cargar incidencias</button>
-<ul id="lista"></ul>
-
-<h2>Crear nueva incidencia</h2>
-<form id="formulario">
-    <input type="text" id="titulo" placeholder="Título" required><br>
-    <textarea id="descripcion" placeholder="Descripción" required></textarea><br>
-    <input type="text" id="nombre" placeholder="Nombre remitente" required><br>
-    <input type="email" id="email" placeholder="Email remitente" required><br>
-    <select id="prioridad">
-        <option value="BAJA">Baja</option>
-        <option value="MEDIA">Media</option>
-        <option value="ALTA">Alta</option>
-    </select><br>
-    <button type="submit">Crear</button>
+<h1>Login</h1>
+<form id="login-form">
+    <label>Email:
+        <input type="text" id="username" required>
+    </label>
+    <br>
+    <label>Contraseña:
+        <input type="password" id="password" required>
+    </label>
+    <br>
+    <button type="submit">Iniciar sesión</button>
 </form>
 
+<hr>
+
+<button id="cargar">Cargar incidencias</button>
+<div id="resultado"></div>
+
 <script>
-    const API_URL = 'http://localhost:8080/api/incidencias'; // Ajusta si cambia el puerto
+    let loggedIn = false;
 
-    function cargarIncidencias() {
-      fetch(API_URL)
-        .then(res => res.json())
-        .then(data => {
-          const lista = document.getElementById('lista');
-          lista.innerHTML = '';
-          data.forEach(inc => {
-            const li = document.createElement('li');
-            li.textContent = `${inc.titulo} - ${inc.descripcion}`;
-            lista.appendChild(li);
-          });
-        })
-        .catch(err => console.error('Error al cargar incidencias:', err));
-    }
-
-    document.getElementById('formulario').addEventListener('submit', function (e) {
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      const incidencia = {
-        titulo: document.getElementById('titulo').value,
-        descripcion: document.getElementById('descripcion').value,
-        nombreRemitente: document.getElementById('nombre').value,
-        emailRemitente: document.getElementById('email').value,
-        prioridad: document.getElementById('prioridad').value
-      };
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-      fetch(API_URL, {
+      const response = await fetch('/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify(incidencia)
-      })
-        .then(res => {
-          if (!res.ok) throw new Error('Error en la creación');
-          return res.json();
-        })
-        .then(data => {
-          alert('Incidencia creada correctamente');
-          cargarIncidencias();
-        })
-        .catch(err => console.error('Error al crear incidencia:', err));
+        body: new URLSearchParams({
+          username: username,
+          password: password
+        }),
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        alert('Login correcto');
+        loggedIn = true;
+      } else {
+        alert('Error de login');
+      }
+    });
+
+    document.getElementById('cargar').addEventListener('click', async () => {
+      if (!loggedIn) {
+        alert('Debes iniciar sesión primero.');
+        return;
+      }
+
+      const res = await fetch('/api/incidencias', {
+        credentials: 'include'
+      });
+
+      if (!res.ok) {
+        document.getElementById('resultado').textContent = 'Error al obtener incidencias';
+        return;
+      }
+
+      const data = await res.json();
+      const contenedor = document.getElementById('resultado');
+      contenedor.innerHTML = '<h2>Incidencias:</h2><ul>' +
+        data.map(i => `<li><strong>${i.titulo}</strong>: ${i.descripcion}</li>`).join('') +
+        '</ul>';
     });
 </script>
 </body>
