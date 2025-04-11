@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   mysql:
-    image: mysql:9.1
+    image: mysql:8.0
     container_name: celia-mysql
     restart: always
     ports:
@@ -14,17 +12,19 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
-      - ./dbScript.sql:/docker-entrypoint-initdb.d/dbScript.sql
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./02-data.sql:/docker-entrypoint-initdb.d/02-data.sql
     networks:
       - backend-net
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
 
   phpmyadmin:
     image: phpmyadmin:5.2.1
     ports:
-      - "8081:8081"
+      - "8081:80"
     environment: 
       PMA_ARBITRARY: 1
+      PMA_HOST: mysql
     networks: 
       - backend-net
       - frontend-net
@@ -33,7 +33,9 @@ services:
       - mysql
 
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: celia-api
     ports:
       - "8080:8080"
@@ -83,4 +85,3 @@ networks:
     driver: bridge
   backend-net:
     driver: bridge
- 
