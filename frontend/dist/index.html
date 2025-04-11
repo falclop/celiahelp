@@ -1,1 +1,75 @@
-Hola mundo!
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Probar API CeliaHelp</title>
+</head>
+<body>
+<h1>Incidencias</h1>
+
+<button onclick="cargarIncidencias()">Cargar incidencias</button>
+<ul id="lista"></ul>
+
+<h2>Crear nueva incidencia</h2>
+<form id="formulario">
+    <input type="text" id="titulo" placeholder="Título" required><br>
+    <textarea id="descripcion" placeholder="Descripción" required></textarea><br>
+    <input type="text" id="nombre" placeholder="Nombre remitente" required><br>
+    <input type="email" id="email" placeholder="Email remitente" required><br>
+    <select id="prioridad">
+        <option value="BAJA">Baja</option>
+        <option value="MEDIA">Media</option>
+        <option value="ALTA">Alta</option>
+    </select><br>
+    <button type="submit">Crear</button>
+</form>
+
+<script>
+    const API_URL = 'http://localhost:8080/api/incidencias'; // Ajusta si cambia el puerto
+
+    function cargarIncidencias() {
+      fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
+          const lista = document.getElementById('lista');
+          lista.innerHTML = '';
+          data.forEach(inc => {
+            const li = document.createElement('li');
+            li.textContent = `${inc.titulo} - ${inc.descripcion}`;
+            lista.appendChild(li);
+          });
+        })
+        .catch(err => console.error('Error al cargar incidencias:', err));
+    }
+
+    document.getElementById('formulario').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const incidencia = {
+        titulo: document.getElementById('titulo').value,
+        descripcion: document.getElementById('descripcion').value,
+        nombreRemitente: document.getElementById('nombre').value,
+        emailRemitente: document.getElementById('email').value,
+        prioridad: document.getElementById('prioridad').value
+      };
+
+      fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(incidencia)
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Error en la creación');
+          return res.json();
+        })
+        .then(data => {
+          alert('Incidencia creada correctamente');
+          cargarIncidencias();
+        })
+        .catch(err => console.error('Error al crear incidencia:', err));
+    });
+</script>
+</body>
+</html>
