@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CeliaHelp - Incidencias</title>
+</head>
+<body>
+<h1>Login</h1>
+<form id="login-form">
+    <label>Email:
+        <input type="text" id="username" required>
+    </label>
+    <br>
+    <label>Contraseña:
+        <input type="password" id="password" required>
+    </label>
+    <br>
+    <button type="submit">Iniciar sesión</button>
+</form>
+
+<hr>
+
+<button id="cargar">Cargar incidencias</button>
+<div id="resultado"></div>
+
+<script>
+    let loggedIn = false;
+
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({
+          username: username,
+          password: password
+        }),
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        alert('Login correcto');
+        loggedIn = true;
+      } else {
+        alert('Error de login');
+      }
+    });
+
+    document.getElementById('cargar').addEventListener('click', async () => {
+      if (!loggedIn) {
+        alert('Debes iniciar sesión primero.');
+        return;
+      }
+
+      const res = await fetch('/api/incidencias', {
+        credentials: 'include'
+      });
+
+      if (!res.ok) {
+        document.getElementById('resultado').textContent = 'Error al obtener incidencias';
+        return;
+      }
+
+      const data = await res.json();
+      const contenedor = document.getElementById('resultado');
+      contenedor.innerHTML = '<h2>Incidencias:</h2><ul>' +
+        data.map(i => `<li><strong>${i.titulo}</strong>: ${i.descripcion}</li>`).join('') +
+        '</ul>';
+    });
+</script>
+</body>
+</html>

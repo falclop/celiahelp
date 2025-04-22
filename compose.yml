@@ -1,0 +1,87 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: celia-mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./02-data.sql:/docker-entrypoint-initdb.d/02-data.sql
+    networks:
+      - backend-net
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    ports:
+      - "8081:80"
+    environment: 
+      PMA_ARBITRARY: 1
+      PMA_HOST: mysql
+    networks: 
+      - backend-net
+      - frontend-net
+    restart: always
+    depends_on: 
+      - mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: celia-api
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+    depends_on:
+      - mysql
+    networks:
+      - frontend-net
+      - backend-net     
+
+  frontend:
+    build: ./frontend
+    container_name: celia-front
+    ports:
+      - "3000:80"  # Accedes en localhost:3000
+    volumes:
+      - front-data:/usr/local/apache2/htdocs
+    depends_on:
+      - backend
+    networks:
+      - frontend-net
+  
+  # Uncomment the following section to use HTTPS with Let's Encrypt
+  # https-portal:
+  #   image: steveltn/https-portal:1
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   restart: always
+  #   environment:
+  #     DOMAINS: "${DOMAIN} -> http://frontend:3000"
+  #     STAGE: 'production' # Don't use production until staging works
+  #     # FORCE_RENEW: 'true'
+  #   networks:
+  #     - frontend-network
+
+volumes:
+  db-data:
+  front-data:
+
+networks:
+  frontend-net:
+    driver: bridge
+  backend-net:
+    driver: bridge
