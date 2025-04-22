@@ -14,7 +14,7 @@ public class RolMapper {
         if (dto == null) return null;
         Rol rol = new Rol();
         rol.setId(dto.getId());
-        rol.setTipo(dto.getTipo());
+        rol.setTipo(Rol.Tipo.valueOf(dto.getTipo()));
         return rol;
     }
 }

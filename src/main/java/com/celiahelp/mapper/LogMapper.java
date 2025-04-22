@@ -1,27 +1,31 @@
 package com.celiahelp.mapper;
 
 import com.celiahelp.dto.LogDTO;
+import com.celiahelp.model.Incidencia;
 import com.celiahelp.model.Log;
+import com.celiahelp.model.Usuario;
+
+import java.time.LocalDateTime;
 
 public class LogMapper {
 
     public static LogDTO toDTO(Log log) {
-        if (log == null) return null;
         return new LogDTO(
                 log.getId(),
-                log.getAccion(),
-                log.getFecha(),
-                UsuarioMapper.toDTO(log.getUsuario())
+                log.getIncidencia() != null ? log.getIncidencia().getId() : null,
+                log.getUsuario() != null ? log.getUsuario().getId() : null,
+                log.getAccion().name(),
+                log.getFecha()
         );
     }
 
-    public static Log toEntity(LogDTO dto) {
-        if (dto == null) return null;
+    public static Log toEntity(LogDTO dto, Incidencia incidencia, Usuario usuario) {
         Log log = new Log();
         log.setId(dto.getId());
-        log.setAccion(dto.getAccion());
-        log.setFecha(dto.getFecha());
-        log.setUsuario(UsuarioMapper.toEntity(dto.getUsuario()));
+        log.setAccion(Log.Accion.valueOf(dto.getAccion()));
+        log.setFecha(dto.getFecha() != null ? dto.getFecha() : LocalDateTime.now());
+        log.setIncidencia(incidencia);
+        log.setUsuario(usuario);
         return log;
     }
 }

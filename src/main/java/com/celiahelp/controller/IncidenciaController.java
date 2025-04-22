@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/incidencias")
@@ -28,7 +27,7 @@ public class IncidenciaController {
 
     @GetMapping
     public ResponseEntity<List<IncidenciaDTO>> getAll() throws ServiceException {
-        List<Incidencia> incidencias = incidenciaService.findAll();
+        List<Incidencia> incidencias = incidenciaService.getAll();
         List<IncidenciaDTO> dtos = incidencias.stream()
                 .map(IncidenciaMapper::toDTO)
                 .toList();
@@ -37,8 +36,7 @@ public class IncidenciaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<IncidenciaDTO> getById(@PathVariable Long id) throws ServiceException, NotFoundException {
-        Incidencia incidencia = incidenciaService.findById(id)
-                .orElseThrow(() -> new NotFoundException("Incidencia no encontrada con id " + id));
+        Incidencia incidencia = incidenciaService.getById(id);
         return ResponseEntity.ok(IncidenciaMapper.toDTO(incidencia));
     }
 

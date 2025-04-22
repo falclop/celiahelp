@@ -28,7 +28,7 @@ public class UsuarioController {
 
     @GetMapping
     public ResponseEntity<List<UsuarioDTO>> getAll() throws ServiceException {
-        List<Usuario> usuarios = usuarioService.findAll();
+        List<Usuario> usuarios = usuarioService.getAll();
         List<UsuarioDTO> dtoList = usuarios.stream()
                 .map(UsuarioMapper::toDTO)
                 .collect(Collectors.toList());
@@ -38,8 +38,7 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> getById(@PathVariable Long id)
             throws ServiceException, NotFoundException {
-        Usuario usuario = usuarioService.findById(id)
-                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id " + id));
+        Usuario usuario = usuarioService.getById(id);
         return ResponseEntity.ok(UsuarioMapper.toDTO(usuario));
     }
 

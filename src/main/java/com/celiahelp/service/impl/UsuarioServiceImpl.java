@@ -6,79 +6,51 @@ import com.celiahelp.exception.ServiceException;
 import com.celiahelp.model.Usuario;
 import com.celiahelp.repository.UsuarioRepository;
 import com.celiahelp.service.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
-    private final UsuarioRepository repo;
+    private final UsuarioRepository usuarioRepository;
 
-    public UsuarioServiceImpl(UsuarioRepository repo) {
-        this.repo = repo;
+    @Override
+    public List<Usuario> getAll() {
+        return usuarioRepository.findAll();
     }
 
     @Override
-    public List<Usuario> findAll() throws ServiceException {
-        try {
-            return repo.findAll();
-        } catch (Exception e) {
-            throw new ServiceException("Error al listar usuarios", e);
-        }
-    }
-
-    @Override
-    public Optional<Usuario> findById(Long id) throws ServiceException {
-        try {
-            return repo.findById(id);
-        } catch (Exception e) {
-            throw new ServiceException("Error al buscar usuario con id " + id, e);
-        }
+    public Usuario getById(Long id) throws NotFoundException {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id: " + id));
     }
 
     @Override
     public Usuario create(Usuario usuario) throws ServiceException {
         try {
-            return repo.save(usuario);
+            return usuarioRepository.save(usuario);
         } catch (Exception e) {
-            throw new ServiceException("Error al crear usuario", e);
+            throw new ServiceException("Error al crear el usuario", e);
         }
     }
 
     @Override
-    public Usuario update(Long id, Usuario usuario)
-            throws ServiceException, NotFoundException {
-        try {
-            return repo.findById(id)
-                    .map(existing -> {
-                        existing.setNombre(usuario.getNombre());
-                        existing.setEmail(usuario.getEmail());
-                        existing.setPasswordHash(usuario.getPasswordHash());
-                        existing.setRol(usuario.getRol());
-                        return repo.save(existing);
-                    })
-                    .orElseThrow(() ->
-                            new NotFoundException("Usuario no encontrado con id " + id));
-        } catch (NotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ServiceException("Error al actualizar usuario con id " + id, e);
-        }
+    public Usuario update(Long id, Usuario usuario) throws ServiceException, NotFoundException {
+        Usuario existente = getById(id);
+        usuario.setId(existente.getId());
+        return usuarioRepository.save(usuario);
     }
 
     @Override
-    public void delete(Long id) throws ServiceException {
+    public void delete(Long id) throws ServiceException, NotFoundException {
+        Usuario usuario = getById(id);
         try {
-            if (!repo.existsById(id)) {
-                throw new NotFoundException("Usuario no encontrado con id " + id);
-            }
-            repo.deleteById(id);
-        } catch (NotFoundException e) {
-            throw e;
+            usuarioRepository.delete(usuario);
         } catch (Exception e) {
-            throw new ServiceException("Error al eliminar usuario con id " + id, e);
+            throw new ServiceException("Error al eliminar el usuario", e);
         }
     }
 }

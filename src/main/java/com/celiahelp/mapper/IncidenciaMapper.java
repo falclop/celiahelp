@@ -49,7 +49,9 @@ public class IncidenciaMapper {
             }
         }
 
-        incidencia.setFechaCreacion(dto.getFechaCreacion());
+        // NO copiar fechaCreacion desde el DTO
+        // incidencia.setFechaCreacion(dto.getFechaCreacion());
+
         incidencia.setNombreRemitente(dto.getNombreRemitente());
         incidencia.setEmailRemitente(dto.getEmailRemitente());
 
