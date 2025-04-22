@@ -1,4 +1,4 @@
-package com.celiahelp.celiahelp;
+package com.celiahelp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
