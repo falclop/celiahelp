@@ -1,49 +1,61 @@
 // UsuarioController.java
 package com.celiahelp.controller;
 
+import com.celiahelp.dto.UsuarioDTO;
 import com.celiahelp.exception.NotFoundException;
 import com.celiahelp.exception.ServiceException;
 import com.celiahelp.model.Usuario;
+import com.celiahelp.repository.RolRepository;
 import com.celiahelp.service.UsuarioService;
+import com.celiahelp.mapper.UsuarioMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
-    private final UsuarioService usuarioService;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    private final UsuarioService usuarioService;
+    private final RolRepository rolRepository;
+
+    public UsuarioController(UsuarioService usuarioService, RolRepository rolRepository) {
         this.usuarioService = usuarioService;
+        this.rolRepository = rolRepository;
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> getAll() throws ServiceException {
-        return ResponseEntity.ok(usuarioService.findAll());
+    public ResponseEntity<List<UsuarioDTO>> getAll() throws ServiceException {
+        List<Usuario> usuarios = usuarioService.findAll();
+        List<UsuarioDTO> dtoList = usuarios.stream()
+                .map(UsuarioMapper::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getById(@PathVariable Long id)
+    public ResponseEntity<UsuarioDTO> getById(@PathVariable Long id)
             throws ServiceException, NotFoundException {
-        return usuarioService.findById(id)
-                .map(ResponseEntity::ok)
+        Usuario usuario = usuarioService.findById(id)
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con id " + id));
+        return ResponseEntity.ok(UsuarioMapper.toDTO(usuario));
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws ServiceException {
+    public ResponseEntity<UsuarioDTO> create(@RequestBody UsuarioDTO usuarioDTO) throws ServiceException {
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, rolRepository);
         Usuario created = usuarioService.create(usuario);
-        return ResponseEntity.status(201).body(created);
+        return ResponseEntity.status(201).body(UsuarioMapper.toDTO(created));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id,
-                                          @RequestBody Usuario usuario)
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO)
             throws ServiceException, NotFoundException {
+        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO, rolRepository);
         Usuario updated = usuarioService.update(id, usuario);
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(UsuarioMapper.toDTO(updated));
     }
 
     @DeleteMapping("/{id}")
