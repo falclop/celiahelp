@@ -8,13 +8,17 @@ import com.celiahelp.mapper.IncidenciaMapper;
 import com.celiahelp.model.Incidencia;
 import com.celiahelp.repository.UsuarioRepository;
 import com.celiahelp.service.IncidenciaService;
+
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/incidencias")
+@Validated
 public class IncidenciaController {
 
     private final IncidenciaService incidenciaService;
@@ -41,14 +45,14 @@ public class IncidenciaController {
     }
 
     @PostMapping
-    public ResponseEntity<IncidenciaDTO> create(@RequestBody IncidenciaDTO incidenciaDTO) throws ServiceException {
+    public ResponseEntity<IncidenciaDTO> create(@RequestBody @Valid IncidenciaDTO incidenciaDTO) throws ServiceException {
         Incidencia incidencia = IncidenciaMapper.toEntity(incidenciaDTO, usuarioRepository);
         Incidencia created = incidenciaService.create(incidencia);
         return ResponseEntity.status(201).body(IncidenciaMapper.toDTO(created));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<IncidenciaDTO> update(@PathVariable Long id, @RequestBody IncidenciaDTO incidenciaDTO)
+    public ResponseEntity<IncidenciaDTO> update(@PathVariable Long id, @RequestBody @Valid IncidenciaDTO incidenciaDTO)
             throws ServiceException, NotFoundException {
         Incidencia incidencia = IncidenciaMapper.toEntity(incidenciaDTO, usuarioRepository);
         Incidencia updated = incidenciaService.update(id, incidencia);

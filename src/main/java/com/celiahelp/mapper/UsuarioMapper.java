@@ -25,13 +25,12 @@ public class UsuarioMapper {
         if (dto == null) return null;
 
         Usuario usuario = new Usuario();
-        usuario.setId(dto.id());
-        usuario.setNombre(dto.nombre());
-        usuario.setEmail(dto.email());
-        usuario.setPasswordHash(dto.passwordHash());
+        usuario.setId(dto.getId());
+        usuario.setNombre(dto.getNombre());
+        usuario.setEmail(dto.getEmail());
 
-        if (dto.rolId() != null) {
-            Optional<Rol> rol = rolRepository.findById(dto.rolId());
+        if (dto.getRolId() != null) {
+            Optional<Rol> rol = rolRepository.findById(dto.getRolId());
             rol.ifPresent(usuario::setRol);
         }
 
