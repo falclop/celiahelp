@@ -16,15 +16,6 @@
 - [x] Configurar build y perfil de tests (H2 embebida, Testcontainers)
 
 ## ⏳ Pendiente
-- [ ] Completar DTOs y validaciones para **Rol** y **Log**
-- [ ] Implementar mappers **RolMapper** y **LogMapper**
-- [ ] Desarrollar controllers validados para **Rol** y **Log**
-- [ ] Escribir servicios e interfaces para **Rol** y **Log**
-- [ ] Configurar repositorios JPA y tests de repositorio para **Rol** y **Log**
-- [ ] Escribir unit tests de servicios para **Rol** y **Log**
-- [ ] Escribir mapper tests para **Rol** y **Log**
-- [ ] Escribir controller tests para **Rol** y **Log**
-- [ ] Escribir integration tests (Testcontainers) para **Rol** y **Log**
 - [ ] Afinar documentación OpenAPI/Swagger
 - [ ] Depurar los errores actuales en tests de repositorio (tabla `usuarios` en H2)
 - [ ] Resolver el “hang” de Surefire al finalizar los tests (cerrar hilos no-daemon)
