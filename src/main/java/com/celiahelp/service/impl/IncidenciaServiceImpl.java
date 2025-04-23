@@ -38,10 +38,26 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     }
 
     @Override
-    public Incidencia update(Long id, Incidencia incidencia) throws ServiceException, NotFoundException {
-        Incidencia existente = getById(id);
-        incidencia.setId(existente.getId());
-        return incidenciaRepository.save(incidencia);
+    public Incidencia update(Long id, Incidencia cambios)
+            throws NotFoundException, ServiceException {
+
+        Incidencia actual = incidenciaRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Incidencia no encontrada con id: " + id));
+
+        // Sólo sobreescribimos si viene no-nulo
+        if (cambios.getTitulo()         != null) actual.setTitulo(cambios.getTitulo());
+        if (cambios.getDescripcion()    != null) actual.setDescripcion(cambios.getDescripcion());
+        if (cambios.getPrioridad()      != null) actual.setPrioridad(cambios.getPrioridad());
+        if (cambios.getEstado()         != null) actual.setEstado(cambios.getEstado());
+        if (cambios.getNombreRemitente()!= null) actual.setNombreRemitente(cambios.getNombreRemitente());
+        if (cambios.getEmailRemitente() != null) actual.setEmailRemitente(cambios.getEmailRemitente());
+        if (cambios.getGestionadaPor()  != null) actual.setGestionadaPor(cambios.getGestionadaPor());
+
+        try {
+            return incidenciaRepository.save(actual);
+        } catch (Exception e) {
+            throw new ServiceException("Error actualizando incidencia", e);
+        }
     }
 
     @Override

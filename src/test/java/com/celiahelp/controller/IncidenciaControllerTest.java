@@ -43,9 +43,10 @@ class IncidenciaControllerTest {
 
         mockMvc.perform(get("/api/incidencias"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].id").value(1));
     }
+
 
     @Test
     void getById_existente_devuelveOK() throws Exception {

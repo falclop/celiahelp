@@ -87,15 +87,22 @@ class IncidenciaServiceTest {
     }
 
     @Test
-    void delete_existente_invocaBorrado() throws ServiceException {
-        when(incidenciaRepository.existsById(1L)).thenReturn(true);
+    void delete_existente_invocaBorrado() throws ServiceException, NotFoundException {
+        Incidencia sample = new Incidencia();
+        sample.setId(1L);
+        when(incidenciaRepository.findById(1L))
+                .thenReturn(Optional.of(sample));
+
         incidenciaService.delete(1L);
-        verify(incidenciaRepository).deleteById(1L);
+
+        verify(incidenciaRepository).delete(sample);
     }
 
     @Test
     void delete_noExiste_lanzaServiceException() {
-        when(incidenciaRepository.existsById(2L)).thenReturn(false);
-        assertThrows(ServiceException.class, () -> incidenciaService.delete(2L));
+        when(incidenciaRepository.findById(1L))
+                .thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> incidenciaService.delete(1L));
     }
 }

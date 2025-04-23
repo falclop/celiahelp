@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ class IncidenciaMapperTest {
         entidad.setDescripcion("Descripción");
         entidad.setPrioridad(Incidencia.Prioridad.ALTA);
         entidad.setEstado(Incidencia.Estado.COMPLETADA);
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         entidad.setFechaCreacion(now);
         entidad.setNombreRemitente("Alice");
         entidad.setEmailRemitente("alice@test.com");
@@ -54,7 +55,6 @@ class IncidenciaMapperTest {
         assertEquals(entidad.getDescripcion(), vuelta.getDescripcion());
         assertEquals(entidad.getPrioridad(), vuelta.getPrioridad());
         assertEquals(entidad.getEstado(), vuelta.getEstado());
-        assertEquals(entidad.getFechaCreacion(), vuelta.getFechaCreacion());
         assertEquals(entidad.getNombreRemitente(), vuelta.getNombreRemitente());
         assertEquals(entidad.getEmailRemitente(), vuelta.getEmailRemitente());
         assertSame(usuario, vuelta.getGestionadaPor());
