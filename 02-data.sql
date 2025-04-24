@@ -6,9 +6,9 @@ INSERT IGNORE INTO roles (id, tipo) VALUES (1, 'GESTOR'), (2, 'ADMIN');
 
 -- Insertar usuarios de prueba
 INSERT INTO usuarios (id, nombre, email, password_hash, rol_id) VALUES
-  (1, 'Laura', 'laura@celiahelp.com', '$2a$10$Vq0FhvnbW8zcfmDJEOSYyOZpPSPDR9GqHMCObYz7ak9DtuZKdrO0C', 1),
-  (2, 'Juan', 'juan@celiahelp.com', '$2a$10$Vq0FhvnbW8zcfmDJEOSYyOZpPSPDR9GqHMCObYz7ak9DtuZKdrO0C', 2),
-  (3, 'Admin', 'admin@celiahelp.com', '$2a$10$Vq0FhvnbW8zcfmDJEOSYyOZpPSPDR9GqHMCObYz7ak9DtuZKdrO0C', 1);
+  (1, 'Laura', 'laura@celiahelp.com', '$2a$10$XP4zLDySECWG83RpYoN3/.1lGRHj3k1s7ocdE6VXvSeDd6Uwvw0be', 1),
+  (2, 'Juan', 'juan@celiahelp.com', '$2a$10$XP4zLDySECWG83RpYoN3/.1lGRHj3k1s7ocdE6VXvSeDd6Uwvw0be', 2),
+  (3, 'Admin', 'admin@celiahelp.com', '$2a$10$XP4zLDySECWG83RpYoN3/.1lGRHj3k1s7ocdE6VXvSeDd6Uwvw0be', 1);
 
 -- Insertar incidencias de ejemplo
 INSERT INTO incidencias (id, titulo, descripcion, prioridad, estado, nombre_remitente, email_remitente, gestionada_por)

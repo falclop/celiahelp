@@ -3,5 +3,5 @@ package com.celiahelp.dto.auth;
 public record AuthResponse(
         String accessToken,
         String tokenType,   // p.ej. "Bearer"
-        long expiresIn      // milis o segs hasta expiración
+        @jakarta.validation.constraints.NotBlank(message = "El usuario no puede estar vacío") String expiresIn// milis o segs hasta expiración
 ) {}

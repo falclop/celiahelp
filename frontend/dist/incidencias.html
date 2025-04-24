@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CeliaHelp – Incidencias</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+    <h1>CeliaHelp</h1>
+    <button id="logout">Cerrar sesión</button>
+</header>
+<main>
+    <h2>Lista de incidencias</h2>
+    <section id="filters">
+        <label>
+            Buscar título:
+            <input type="text" id="filterTitle" placeholder="Título">
+        </label>
+        <label>
+            Prioridad:
+            <select id="filterPrioridad">
+                <option value="">Todas</option>
+                <option value="BAJA">Baja</option>
+                <option value="MEDIA">Media</option>
+                <option value="ALTA">Alta</option>
+            </select>
+        </label>
+        <label>
+            Estado:
+            <select id="filterEstado">
+                <option value="">Todos</option>
+                <option value="PENDIENTE">Pendiente</option>
+                <option value="EN_PROCESO">En Proceso</option>
+                <option value="RESUELTA">Resuelta</option>
+            </select>
+        </label>
+        <button id="applyFilters">Aplicar filtros</button>
+    </section>
+    <table id="incidenciasTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Remitente</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</main>
+
+<script src="js/api.js"></script>
+<script src="js/view.js"></script>
+</body>
+</html>
