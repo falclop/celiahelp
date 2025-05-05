@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CeliaHelp – Crear Incidencia</title>
+    <title>CeliaHelp – Inicio</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -11,47 +11,11 @@
     <h1>CeliaHelp</h1>
 </header>
 <main>
-    <h2>Crear nueva incidencia</h2>
-    <form id="createForm">
-        <label>
-            Título
-            <input type="text" id="titulo" required>
-        </label>
-        <label>
-            Descripción
-            <textarea id="descripcion" required></textarea>
-        </label>
-        <label>
-            Prioridad
-            <select id="prioridad">
-                <option value="BAJA">Baja</option>
-                <option value="MEDIA" selected>Media</option>
-                <option value="ALTA">Alta</option>
-            </select>
-        </label>
-        <label>
-            Estado
-            <select id="estado">
-                <option value="PENDIENTE">Pendiente</option>
-                <option value="EN_PROCESO">En Proceso</option>
-                <option value="RESUELTA">Resuelta</option>
-            </select>
-        </label>
-        <label>
-            Nombre remitente
-            <input type="text" id="nombreRemitente" required>
-        </label>
-        <label>
-            Email remitente
-            <input type="email" id="emailRemitente" required>
-        </label>
-        <button type="submit">Enviar</button>
-    </form>
-    <p id="message"></p>
-    <p><a href="login.html">Acceso gestores/admin</a></p>
+    <h2>Bienvenido a CeliaHelp</h2>
+    <div class="button-container">
+        <a href="login.html"><button>Acceder como gestor/admin</button></a>
+        <a href="create.html"><button>Crear incidencia</button></a>
+    </div>
 </main>
-
-<script src="js/api.js"></script>
-<script src="js/create.js"></script>
 </body>
 </html>

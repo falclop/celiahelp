@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CeliaHelp – Crear Incidencia</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header>
+    <h1>CeliaHelp</h1>
+    <a href="index.html" class="back-link">← Volver al inicio</a>
+</header>
+<main class="form-container">
+    <h2>Crear nueva incidencia</h2>
+    <form id="createForm" novalidate>
+        <div class="form-group">
+            <label for="titulo">Título de la incidencia</label>
+            <input type="text" id="titulo" name="titulo" required>
+        </div>
+        <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="nombreRemitente">Nombre remitente</label>
+            <input type="text" id="nombreRemitente" name="nombreRemitente" required>
+        </div>
+        <div class="form-group">
+            <label for="emailRemitente">Email remitente</label>
+            <input type="email" id="emailRemitente" name="emailRemitente" required>
+        </div>
+paint
+        <div class="button-group">
+            <button type="submit">Enviar</button>
+            <button type="reset">Limpiar</button>
+        </div>
+    </form>
+    <p id="message" role="alert" aria-live="polite"></p>
+</main>
+<script type="module" src="js/api.js"></script>
+<script type="module" src="js/create.js"></script>
+</body>
+</html>

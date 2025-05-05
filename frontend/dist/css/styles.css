@@ -73,3 +73,15 @@ th {
 #logout {
   background: #ff6f61;
 }
+
+/* Landing page: centrado de botones */
+main {
+  text-align: center;
+}
+
+.button-container {
+  display: inline-flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+

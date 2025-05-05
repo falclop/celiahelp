@@ -8,8 +8,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const data = {
       titulo:         form.titulo.value.trim(),
       descripcion:    form.descripcion.value.trim(),
-      prioridad:      form.prioridad.value,
-      estado:         form.estado.value,
       nombreRemitente: form.nombreRemitente.value.trim(),
       emailRemitente: form.emailRemitente.value.trim()
     };
