@@ -8,29 +8,28 @@
 </head>
 <body>
 <header>
-    <h1>CeliaHelp</h1>
-    <a href="index.html" class="back-link">← Volver al inicio</a>
+    <img class="logo" src="img/logo.png" alt="logo" width="200">
+    <a href="index.html" class="back-link">Volver al inicio</a>
 </header>
 <main class="form-container">
     <h2>Crear nueva incidencia</h2>
     <form id="createForm" novalidate>
         <div class="form-group">
             <label for="titulo">Título de la incidencia</label>
-            <input type="text" id="titulo" name="titulo" required>
+            <input type="text" id="titulo" name="titulo" placeholder="Título de la incidencia..." required>
         </div>
         <div class="form-group">
             <label for="descripcion">Descripción</label>
-            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+            <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describa su problema..." required></textarea>
         </div>
         <div class="form-group">
             <label for="nombreRemitente">Nombre remitente</label>
-            <input type="text" id="nombreRemitente" name="nombreRemitente" required>
+            <input type="text" id="nombreRemitente" name="nombreRemitente" placeholder="Ponga su nombre..." required>
         </div>
         <div class="form-group">
             <label for="emailRemitente">Email remitente</label>
-            <input type="email" id="emailRemitente" name="emailRemitente" required>
+            <input type="email" id="emailRemitente" name="emailRemitente" placeholder="Coloque su email..." required>
         </div>
-paint
         <div class="button-group">
             <button type="submit">Enviar</button>
             <button type="reset">Limpiar</button>
