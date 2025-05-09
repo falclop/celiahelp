@@ -23,8 +23,8 @@ src/
  │   │   ├─ mapper/       # Mapeadores Entity<->DTO
  │   │   ├─ model/        # Entidades JPA
  │   │   ├─ repository/   # Repositorios Spring Data JPA
- │   │   ├─ service/      # Interfaces de servicios
- │   │   └─ serviceimpl/  # Implementaciones de servicios
+ │   │   └─ service/      # Interfaces de servicios
+ │   │       └─ impl/  # Implementaciones de servicios
  │   └─ resources/
  │       └─ application.properties  # Configuración Spring
  │ 
@@ -38,7 +38,7 @@ src/
 
 1. Compilar el proyecto:
    ```bash
-   mvn clean package
+   ./mvn clean package
    ```
 2. Levantar servicios:
    ```bash
@@ -63,14 +63,36 @@ src/
 | Logs            | GET    | `/api/logs`                   |
 |                 | POST   | `/api/logs`                   |
 
-## Ramas de Trabajo
-- `main`: código estable en producción.
-- `validations`: validaciones de DTO y controladores.
-- Crea nuevas ramas para features o correcciones y haz merge mediante PR.
+## Diagrama de flujo de usuario
+```mermaid
+flowchart TD
+  A[Cliente] -- HTTP Request --> B{Es POST /api/incidencias?}
+  B -- Sí --> C1[AuthFilter sin JWT]
+  B -- No --> C2[AuthFilter con JWT]
+  C2 -->|Válido| D[AuthManager]
+  C2 -->|Inválido| E[Error 401/403]
+  D --> F[Set Auth]
+  C1 --> F
+  F --> G[Servlet]
+  G --> H[Controller]
+  H --> I[Validar entrada]
+  I --> J[Mapper]
+  J --> K[Service]
+  K --> L[ServiceImpl]
+  L --> M[Repository]
+  M --> N[Base de datos]
+  N --> M
+  M --> L
+  L --> J
+  J --> H
+  H --> O[Respuesta JSON]
 
-## Próximos Pasos
-- Añadir validaciones con `@Valid` y mensajes.
-- Manejo avanzado de errores (cuerpos de respuesta).
-- Seguridad (Spring Security + JWT).
-- Pruebas (JUnit, MockMvc).
-- Documentación Swagger / OpenAPI.
+```
+
+## Frontend
+UX y UI sencilla para poder consumir la API de forma rápida con funcionalidades básicas.
+
+   - *Landing page* que te dirige a **Crear incidencia** o a **Login**.
+![/img/]
+
+   - 
