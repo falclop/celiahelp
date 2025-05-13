@@ -1,28 +1,3 @@
-# 📋 Lista de Tareas del Proyecto CeliaHelp
-
-## ✅ Ya completado
-- [x] Definir entidades JPA y sus relaciones (`Incidencia`, `Usuario`, `Rol`, `Log`)
-- [x] Crear DTOs y validaciones para **Incidencia** y **Usuario**
-- [x] Implementar mappers **IncidenciaMapper** y **UsuarioMapper**
-- [x] Desarrollar controllers con validación para **Incidencia** (`IncidenciaController`)
-- [x] Escribir servicios e interfaces para **Incidencia** y **Usuario**
-- [x] Configurar repositorios Spring Data JPA para **Incidencia** y **Usuario**
-- [x] Tests unitarios de servicios (`IncidenciaServiceTest`, `UsuarioServiceTest`)
-- [x] Tests de mappers (`IncidenciaMapperTest`, `UsuarioMapperTest`)
-- [x] Repository test para **Incidencia** (`IncidenciaRepositoryTest`)
-- [x] Controller test para **Incidencia** (`IncidenciaControllerTest`)
-- [x] Integration test para **Incidencia** con Testcontainers MySQL (`IncidenciaIntegrationTest`)
-- [x] Crear y versionar `README.md` con la documentación técnica actual
-- [x] Configurar build y perfil de tests (H2 embebida, Testcontainers)
-
-## ⏳ Pendiente
-- [ ] Afinar documentación OpenAPI/Swagger
-- [ ] Depurar los errores actuales en tests de repositorio (tabla `usuarios` en H2)
-- [ ] Resolver el “hang” de Surefire al finalizar los tests (cerrar hilos no-daemon)
-- [ ] Revisar y ajustar configuración de `@AutoConfigureTestDatabase` donde sea necesario
-
----
-
 ### 📌 Fallos y problemas encontrados
 1. **Tablas inexistentes en H2**
     - `InvalidDataAccessResourceUsageException`: “Table 'USUARIOS' not found” al persistir usuario/incidencia en tests con H2.
