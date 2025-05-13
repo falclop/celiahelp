@@ -5,12 +5,14 @@
   padding: 0;
 }
 
+/* Estilo básico */
 body {
   font-family: Poppins, sans-serif;
   background: #f4f4f4;
   color: #333;
 }
 
+/* Cabecera */
 header {
   background: #005a9c;
   color: white;
@@ -20,6 +22,7 @@ header {
   align-items: center;
 }
 
+/* Main de la página */
 main {
   max-width: 800px;
   margin: 2rem auto;
@@ -29,10 +32,12 @@ main {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+/* Estilo de los H */
 h1, h2 {
   margin-bottom: 1rem;
 }
 
+/* Estilos de los formularios */
 form label {
   display: block;
   margin: 0.75rem 0;
@@ -44,17 +49,17 @@ input, textarea, select {
   margin-top: 0.25rem;
 }
 
+/* Estilos de los botones */
 button {
   background: #ff6f61;
   color: white;
-  border: none;
+  border: 2px solid white;
+  border-radius: 50px;
   padding: 0.75rem 1.5rem;
   margin-top: 1rem;
-  margin-left: 1rem;
   cursor: pointer;
-  border-radius: 50px;
-  color: white;
-  border: 2px solid white;
+  text-decoration: none;
+  font-size: medium;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -67,6 +72,7 @@ button {
   margin-top: 1rem;
   cursor: pointer;
   text-decoration: none;
+  font-size: medium;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -74,6 +80,7 @@ button:hover {
   opacity: 0.9;
 }
 
+/* Estilos de la tabla */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -90,6 +97,7 @@ th {
   color: white;
 }
 
+/* Estilo del logout */
 #logout {
   background: #ff6f61;
 }
@@ -101,7 +109,58 @@ main {
 
 .button-container {
   display: inline-flex;
-  gap: 1rem;
+  gap: 2rem;
   margin-top: 2rem;
 }
 
+/* Modal*/
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+/* Clase para ocultar el modal */
+.hidden {
+  display: none;
+}
+
+/* Contenido interno del modal */
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  text-align: center;
+  min-width: 300px;
+  max-width: 90%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Mensaje del modal */
+.modal-content p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Botón de cerrar */
+.modal-content button {
+  background: #005a9c;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content button:hover {
+  opacity: 0.9;
+}

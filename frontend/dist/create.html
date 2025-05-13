@@ -30,12 +30,17 @@
             <label for="emailRemitente">Email remitente</label>
             <input type="email" id="emailRemitente" name="emailRemitente" placeholder="Coloque su email..." required>
         </div>
-        <div class="button-group">
+        <div class="button-container">
             <button type="submit">Enviar</button>
             <button type="reset">Limpiar</button>
         </div>
     </form>
-    <p id="message" role="alert" aria-live="polite"></p>
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <p id="message" role="alert" aria-live="polite"></p>
+            <button id="closeModal">Cerrar</button>
+        </div>
+    </div>
 </main>
 <script type="module" src="js/api.js"></script>
 <script type="module" src="js/create.js"></script>

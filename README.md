@@ -31,7 +31,6 @@ src/
  ├─ backend/Dockerfile
  │   └─ scripts/wait-for-it.sh
  └─ frontend/Dockerfile
- 
 ```
 
 ## Uso con Docker Compose
@@ -92,7 +91,7 @@ flowchart TD
 ## Frontend
 UX y UI sencilla para poder consumir la API de forma rápida con funcionalidades básicas.
 
-   - *Landing page* que te dirige a **Crear incidencia** o a **Login**.
+   - *Landing page* que te dirige a **Crear incidencia** o a **Login**.  
 ![/img/]
 
    - 

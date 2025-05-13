@@ -24,9 +24,13 @@
         </label>
         <button type="submit">Entrar</button>
     </form>
-    <p id="loginMessage"></p>
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <p id="loginMessage" role="alert" aria-live="polite"></p>
+            <button id="closeModal">Cerrar</button>
+        </div>
+    </div>
 </main>
-
 <script src="js/api.js"></script>
 <script src="js/login.js"></script>
 </body>
