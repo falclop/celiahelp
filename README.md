@@ -87,11 +87,27 @@ flowchart TD
   H --> O[Respuesta JSON]
 
 ```
+## Flujo de securización con JWT
+```mermaid
+flowchart TD
+    A[Petición HTTP entrante] --> B{"¿Ruta pública?"}
+    B -- Sí --> Z[Permitir acceso sin token]
+    B -- No --> C[JwtAuthenticationFilter]
+    C --> D{"¿Authorization: Bearer <token>?"}
+    D -- No --> J["JwtAuthenticationEntryPoint → 401"]
+    D -- Sí --> E[Validar token con JwtTokenProvider]
+    E --> F{"¿Token válido?"}
+    F -- No --> J
+    F -- Sí --> G[Extraer usuario y roles]
+    G --> H[UserDetailsServiceImpl carga el usuario]
+    H --> I[Setear Authentication en SecurityContext]
+    I --> K[Permitir acceso a recursos protegidos]
+
+    classDef green fill:#bbf,stroke:#333,stroke-width:1px;
+   ```
 
 ## Frontend
 UX y UI sencilla para poder consumir la API de forma rápida con funcionalidades básicas.
 
    - *Landing page* que te dirige a **Crear incidencia** o a **Login**.  
 ![/img/]
-
-   - 
